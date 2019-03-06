@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './list_item.dart';
+import './list_item_pokemon.dart';
 import '../../data/pokemon.dart';
 
 class PokeList extends StatelessWidget {
@@ -23,7 +23,9 @@ class PokeList extends StatelessWidget {
         Pokemon pokemon = list.elementAt(index);
         return ListItemPokemon(
           pokemon: pokemon,
-          id: index + 1,
+          id: pokemon.id,
+          speciesId: pokemon.speciesId,
+          name: pokemon.name,
           onTapPokemon: onTapPokemon,
         );
       },
