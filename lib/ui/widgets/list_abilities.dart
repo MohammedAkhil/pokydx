@@ -1,3 +1,4 @@
+import 'package:Pokydx/ui/ability_state.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/abilitiy.dart';
@@ -9,40 +10,68 @@ class AbilitiesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return list();
+    return list(context);
   }
 
-  Widget list() {
+  Widget list(BuildContext context) {
     return SliverToBoxAdapter(
+      child: Column(
+        children: <Widget>[
+          title(context),
+          Container(
+            height: 100,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return cardView(abilities[index], context);
+              },
+              itemCount: abilities.length,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget cardView(Ability ability, BuildContext context) {
+    return InkWell(
+      onTap: () => moveToDetailedScreen(ability, context),
       child: Container(
-        height: 110,
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return cardView(abilities[index]);
-          },
-          itemCount: abilities.length,
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
+        width: 230,
+        child: Card(
+          elevation: 0,
+          child: cardItem(ability, context),
+        ),
+        margin: EdgeInsets.only(left: 8, right: 0),
+      ),
+    );
+  }
+
+  Widget title(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 0),
+      child: Center(
+        child: Text(
+          'abilities',
+          style: Theme.of(context).textTheme.title,
         ),
       ),
     );
   }
 
-  Widget cardView(Ability ability) {
-    return Container(
-      width: 240,
-      child: Card(
-        color: Colors.black,
-        child: cardItem(ability),
-        elevation: 5,
-      ),
-      margin: EdgeInsets.only(left: 8, right: 0),
-    );
+  void moveToDetailedScreen(Ability ability, BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AbilityUI(
+                  url: ability.url,
+                )));
   }
 
-  Widget cardItem(Ability ability) {
+  Widget cardItem(Ability ability, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16, right: 8, top: 24, bottom: 24),
+      padding: EdgeInsets.only(left: 16, right: 8, top: 18, bottom: 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,29 +79,28 @@ class AbilitiesWidget extends StatelessWidget {
           Text(
             ability.name,
             style: TextStyle(
-                fontSize: 22, fontWeight: FontWeight.w500, color: Colors.white),
+                fontSize: 20, fontWeight: FontWeight.w400),
           ),
-          miscInfo(ability)
+          miscInfo(ability, context)
         ],
       ),
     );
   }
 
-  Widget miscInfo(Ability ability) {
+  Widget miscInfo(Ability ability, BuildContext context) {
     String isHidden = ability.isHidden ? 'Hidden' : 'Not Hidden';
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
           'slot - ' + ability.slot.toString(),
-          style: TextStyle(
-              fontSize: 16, color: Colors.white70, fontWeight: FontWeight.w500),
+          style: Theme.of(context).textTheme.body2,
         ),
         Spacer(),
         Text(
           isHidden,
-          style: TextStyle(
-              fontSize: 16, color: Colors.white70, fontWeight: FontWeight.w500),
+          style: Theme.of(context).textTheme.body2,
+
         ),
         SizedBox(
           width: 8,
