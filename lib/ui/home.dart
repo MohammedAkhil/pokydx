@@ -3,25 +3,32 @@ import 'dart:convert';
 
 import 'package:Pokydx/data/pokemon.dart';
 import 'package:Pokydx/ui/info_state.dart';
+import 'package:Pokydx/ui/search.dart';
 import 'package:Pokydx/ui/widgets/grid_pokemon.dart';
 import 'package:Pokydx/ui/widgets/list_pokemon.dart';
+import 'package:Pokydx/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class World extends StatefulWidget {
+class Home extends StatefulWidget {
+  final Function modifyTheme;
+
+  const Home({Key key, this.modifyTheme}) : super(key: key);
+
   @override
-  _WorldState createState() => _WorldState();
+  _HomeState createState() => _HomeState();
 }
 
-class _WorldState extends State<World> {
-  int offset = 0;
+class _HomeState extends State<Home> {
+  int offset = 30;
   bool isLoading = false;
   String url = "api.data.world";
   String endPoint = 'v0/sql/akhil05/pokydx/';
   ScrollController controller;
   var pokeList = List<Pokemon>();
   double elevation = 5.0;
-  bool isGrid = true;
+  bool isGrid = false;
+  bool isSearch = false;
 
   @override
   void initState() {
@@ -31,21 +38,25 @@ class _WorldState extends State<World> {
   }
 
   @override
+  Home get widget => super.widget;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: elevation,
-        centerTitle: true,
-        title: headerText(),
-        leading: IconButton(
-            icon: Icon(Icons.search), color: Colors.black, onPressed: null),
-        actions: <Widget>[
-          IconButton(
-              icon: isGrid ? Icon(Icons.list) : Icon(Icons.grid_on),
-              onPressed: _switchListType)
+      appBar: mainAppBar(),
+      body: Stack(
+        children: <Widget>[
+          list(),
+          isLoading
+              ? Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              : Container()
         ],
       ),
-      body: list(),
     );
   }
 
@@ -96,7 +107,7 @@ class _WorldState extends State<World> {
 
   void _scrollListener() {
     if (controller.position.extentAfter < 300 &&
-        offset < 720 &&
+        offset < 960 &&
         isLoading == false) {
       fetchAllPokemon();
     }
@@ -108,6 +119,8 @@ class _WorldState extends State<World> {
         MaterialPageRoute(
             builder: (context) => Info(
                   id: pokemon.id,
+                  speciesId: pokemon.speciesId,
+                  name: pokemon.name,
                 )));
   }
 
@@ -115,18 +128,18 @@ class _WorldState extends State<World> {
     var newList = List<Pokemon>();
     isLoading = true;
 
+    // TODO optimize query
+
     String query = '''
-    SELECT column_a AS id, column_b AS name, CONCAT(column_c, COALESCE(`column_d`, '')) AS type, column_l AS generation, column_m as is_legendary
-    FROM pokemon
-    WHERE column_b NOT LIKE '%Mega %' AND column_b NOT LIKE '%Primal %'
-    ORDER BY column_a
-    LIMIT 400
+    SELECT id, name, species_id, type, generation_id
+    FROM pokedex
+    ORDER BY id
+    LIMIT ${offset.toString()}
     ''';
     var queryParams = {'query': query};
     var uri = Uri.https(url, endPoint, queryParams);
     Map<String, String> headers = {
-      "Authorization":
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmFraGlsMDUiLCJpc3MiOiJhZ2VudDpha2hpbDA1OjowODczYjExZS00MzY0LTQwYzQtYTQ2Mi1kMjQ0NDM4ZmNmZGYiLCJpYXQiOjE1NTAyMjcyNTksInJvbGUiOlsidXNlcl9hcGlfcmVhZCIsInVzZXJfYXBpX3dyaXRlIl0sImdlbmVyYWwtcHVycG9zZSI6dHJ1ZSwic2FtbCI6e319.H6dmkm2wN6HG6jgnAVOwSTx33Lqy1oc46_I1TG8K855hRDGPxWn66jj5Kabq5-Kn2TIOEl_6j7LQGawfvzhHUg",
+      "Authorization": "Bearer $authToken",
       "Content-type": "application/json"
     };
     final response = await http.get(uri, headers: headers);
@@ -134,19 +147,44 @@ class _WorldState extends State<World> {
     if (response.statusCode == 200) {
       List<dynamic> body = json.decode(response.body);
       body.forEach((item) {
-        Pokemon pokemon = Pokemon.fromDataWorld(item);
+        Pokemon pokemon = Pokemon.fromUrlJson(item);
         newList.add(pokemon);
       });
 
       if (this.mounted) {
         setState(() {
+          this.pokeList.clear();
           this.pokeList.addAll(newList);
-          // offset += 20;
+          offset += 30;
           isLoading = false;
         });
       }
     } else {
       throw Exception("Failed response.");
     }
+  }
+
+  Widget mainAppBar() {
+    return AppBar(
+      elevation: elevation,
+      centerTitle: true,
+      title: headerText(),
+      leading: IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Search()));
+          }),
+      actions: <Widget>[
+        IconButton(
+            icon: Icon(Icons.brightness_low),
+            onPressed: () {
+              widget.modifyTheme();
+            }),
+        IconButton(
+            icon: isGrid ? Icon(Icons.list) : Icon(Icons.grid_on),
+            onPressed: _switchListType)
+      ],
+    );
   }
 }
