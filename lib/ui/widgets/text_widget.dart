@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
 class TextWidget extends StatelessWidget {
-
   final String text;
   final double textSize;
   final Color color;
   final bool isUnderline;
   final bool textAlign;
 
-  const TextWidget({
-    Key key,
-    this.text,
-    this.textSize = 24,
-    this.color = Colors.black,
-    this.isUnderline = false,
-    this.textAlign = false
-  }) : super(key: key);
+  const TextWidget(
+      {Key key,
+      this.text,
+      this.textSize = 24,
+      this.color = Colors.black,
+      this.isUnderline = false,
+      this.textAlign = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,6 @@ class TextWidget extends StatelessWidget {
         fontSize: textSize,
         decoration: isUnderline ? TextDecoration.underline : null,
         color: color,
-
       ),
     );
   }
