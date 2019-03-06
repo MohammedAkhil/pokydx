@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../../data/types.dart';
 
 class TypesWidget extends StatelessWidget {
-
   final List<String> types;
+  final bool isSmall;
 
-  const TypesWidget({Key key, this.types}) : super(key: key);
+  const TypesWidget({Key key, this.types, this.isSmall: false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,13 @@ class TypesWidget extends StatelessWidget {
   Widget pokeTypes() {
     var widgets = List<Widget>();
 
-    for (int i=0; i< types.length; i++) {
+    for (int i = 0; i < types.length; i++) {
       Widget typeWidget;
 
       if (i % 2 != 0) {
-        widgets.add(SizedBox(width: 16,));
+        widgets.add(SizedBox(
+          width: isSmall ? 8 : 12,
+        ));
       }
       typeWidget = getTypeWidget(types[i]);
       widgets.add(typeWidget);
@@ -34,22 +38,30 @@ class TypesWidget extends StatelessWidget {
   }
 
   Widget getTypeWidget(String type) {
-    return Chip(
-      labelPadding: EdgeInsets.only(left: 16, right: 16, top: 2, bottom: 2),
-      label: Text(
-        type,
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.white,
+    var x = isSmall
+        ? EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4)
+        : EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6);
+
+    return Container(
+      decoration: BoxDecoration(
+          color: getColorType(type),
+          borderRadius: BorderRadius.all(Radius.circular(4))),
+      child: Padding(
+        padding: x,
+        child: Text(
+          type,
+          style: TextStyle(
+            fontSize: isSmall ? 10 : 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
         ),
       ),
-      backgroundColor: getColorType(type),
     );
   }
 
   Color getColorType(String type) {
-    String hexColor = '0XFF' + typeColorCodes[type];
+    String hexColor = '0XFF' + typeColorCodes[type.toLowerCase()];
     return Color(int.parse(hexColor));
   }
-
 }
