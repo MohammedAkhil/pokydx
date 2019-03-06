@@ -4,7 +4,7 @@ Map typeColorCodes = {
   "water": "3399ff",
   "electric": "ffcc33",
   "grass": "77cc55",
-  "ice":  "96D9D6",
+  "ice": "96D9D6",
   "fighting": "C22E28",
   "poison": "A33EA1",
   "ground": "E2BF65",

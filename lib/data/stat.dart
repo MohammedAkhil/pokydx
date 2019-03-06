@@ -1,7 +1,6 @@
 import 'dart:core';
 
 class Stat {
-
   final int baseStat;
   final int effort;
   final String name;
@@ -10,9 +9,8 @@ class Stat {
 
   factory Stat.fromJson(Map<String, dynamic> json) {
     return Stat(
-      baseStat: json['base_stat'],
-      effort: json['effort'],
-      name: json['stat']['name']
-    );
+        baseStat: json['base_stat'],
+        effort: json['effort'],
+        name: json['stat']['name']);
   }
 }

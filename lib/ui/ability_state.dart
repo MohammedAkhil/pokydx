@@ -1,22 +1,36 @@
-import 'package:Pokydx/data/abilitiy.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class AbilityWidget extends StatefulWidget {
+import 'package:Pokydx/data/abilitiy.dart';
+import 'package:Pokydx/ui/widgets/ability_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class AbilityUI extends StatefulWidget {
   final String url;
 
-  const AbilityWidget({Key key, this.url}) : super(key: key);
-  
+  const AbilityUI({Key key, this.url}) : super(key: key);
+
   @override
-  _AbilityWidgetState createState() => _AbilityWidgetState();
+  _AbilityUIState createState() => _AbilityUIState();
 }
 
-class _AbilityWidgetState extends State<AbilityWidget> {
-
+class _AbilityUIState extends State<AbilityUI> {
   Ability _ability;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+      ),
+      body: _ability != null
+          ? AbilityWidget(
+              ability: _ability,
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
+    );
   }
 
   @override
@@ -28,9 +42,18 @@ class _AbilityWidgetState extends State<AbilityWidget> {
   }
 
   @override
-  AbilityWidget get widget => super.widget;
-  
-  Future<void> getDetailedAbility(String url) {
-    
+  AbilityUI get widget => super.widget;
+
+  Future<void> getDetailedAbility(String url) async {
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      Ability ability = Ability.fromDetailedJson(json.decode(response.body));
+      if (this.mounted) {
+        setState(() {
+          _ability = ability;
+        });
+      }
+    }
   }
 }
