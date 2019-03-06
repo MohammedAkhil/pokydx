@@ -1,0 +1,20 @@
+Map typeColorCodes = {
+  "normal": "aaaa99",
+  "fire": "ff4422",
+  "water": "3399ff",
+  "electric": "ffcc33",
+  "grass": "77cc55",
+  "ice":  "96D9D6",
+  "fighting": "C22E28",
+  "poison": "A33EA1",
+  "ground": "E2BF65",
+  "flying": "8899ff",
+  "psychic": "F95587",
+  "bug": "A6B91A",
+  "rock": "B6A136",
+  "ghost": "735797",
+  "dragon": "6F35FC",
+  "dark": "705746",
+  "steel": "B7B7CE",
+  "fairy": "D685AD"
+};
