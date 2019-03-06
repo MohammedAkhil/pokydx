@@ -1,5 +1,5 @@
-name: pokeflutter
-description: A new Flutter project.
+name: Pokydx
+description: A minimalistic Pokedex.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -7,7 +7,7 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 0.0.4+5
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -16,6 +16,8 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.0+1
+  audioplayer: ^0.5.2
+  cached_network_image: ^0.6.0+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -29,7 +31,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon" 
   ios: true
-  image_path: "assets/icons/ic-pokedex.png"
+  image_path: "assets/icons/ic-launcher.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -49,11 +51,20 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/images/
 
   fonts:
     - family: Jost
       fonts:
+        - asset: assets/fonts/Jost-Medium.otf
+        - asset: assets/fonts/Jost-Light.otf
+          weight: 300
         - asset: assets/fonts/Jost-Semi.otf
+          weight: 600
+        - asset: assets/fonts/Jost-Book.otf
+          weight: 400
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
