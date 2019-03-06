@@ -10,11 +10,15 @@ class GridAbilities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return body(context);
+  }
+
+  Widget body(BuildContext context) {
     Color gridColor = getColorFromHex(colourNameToHex(color));
 
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, childAspectRatio: 5 / 3),
+          crossAxisCount: 3, childAspectRatio: 3 / 2),
       delegate: SliverChildListDelegate(
         List<Widget>.generate(6, (index) {
           return Container(color: gridColor, child: gridItem(stats[index]));
@@ -34,14 +38,14 @@ class GridAbilities extends StatelessWidget {
           Center(
             child: Text(stat.baseStat.toString(),
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     color: statTextColor,
                     fontWeight: FontWeight.w500)),
           ),
           Center(
             child: Text(stat.name.toUpperCase(),
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 10,
                     color: statTextColor,
                     fontWeight: FontWeight.w600)),
           ),
