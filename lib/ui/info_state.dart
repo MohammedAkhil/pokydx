@@ -24,7 +24,7 @@ class _InfoState extends State<Info> {
   AudioPlayer audioPlayer;
 
   static const String BASE_IMG_URL =
-      'https://veekun.com/dex/media/pokemon/sugimori/';
+      "https://assets.pokemon.com/assets/cms2/img/pokedex/full/";
 
   static const String BASE_CRY_URL =
       'https://veekun.com/dex/media/pokemon/cries/';
@@ -102,7 +102,7 @@ class _InfoState extends State<Info> {
 
   String getImageUrl(int id) {
     if (id <= 809) {
-      return BASE_IMG_URL + id.toString() + '.png';
+      return BASE_IMG_URL + formatPokedexNumber() + '.png';
     }
 
     String baseUrl =
@@ -115,6 +115,22 @@ class _InfoState extends State<Info> {
         ? widget.id.toString()
         : widget.speciesId.toString() + getSubSpeciesName(widget.name);
     return baseUrl + imageId + '.png';
+  }
+
+  String formatPokedexNumber() {
+    int preZeroCount = 3 - (widget.id).toString().length;
+    String preZeroes;
+    switch (preZeroCount) {
+      case 2:
+        preZeroes = "00";
+        break;
+      case 1:
+        preZeroes = "0";
+        break;
+      default:
+        preZeroes = "";
+    }
+    return "$preZeroes${widget.id}";
   }
 
   String getSubSpeciesName(String fullName) {

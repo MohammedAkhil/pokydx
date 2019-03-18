@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-import './list_item_pokemon.dart';
+import './pokemon_list_item.dart';
 import '../../data/pokemon.dart';
 
 class PokeList extends StatelessWidget {
-  PokeList({Key key, this.list, this.onTapPokemon, this.controller})
+  PokeList({Key key, this.list, this.onTapPokemon, this.controller, this.addToFavourites})
       : super(key: key);
 
   final List<Pokemon> list;
   final Function onTapPokemon;
+  final Function addToFavourites;
   final ScrollController controller;
 
   @override
@@ -27,6 +28,7 @@ class PokeList extends StatelessWidget {
           speciesId: pokemon.speciesId,
           name: pokemon.name,
           onTapPokemon: onTapPokemon,
+          addToFavourites: addToFavourites
         );
       },
       controller: controller,

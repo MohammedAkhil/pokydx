@@ -1,4 +1,4 @@
-import 'package:Pokydx/data/abilitiy.dart';
+import 'package:Pokydx/data/ability_data.dart';
 import 'package:flutter/material.dart';
 
 class AbilityWidget extends StatelessWidget {
@@ -15,70 +15,71 @@ class AbilityWidget extends StatelessWidget {
 
   Widget main(BuildContext context) {
     return CustomScrollView(
-      slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildListDelegate([
-            id(ability.id, context),
-            header(ability.name, context),
-            description(ability.effectEntry, context),
-            subtitle(ability.name, context),
-          ]),
-        ),
-        SliverGrid(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              String id = getId(ability.pokemon[index].url);
-
-              return Container(
-                margin: EdgeInsets.only(left: 12, right: 12),
-                child: int.parse(id) < 1000
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.network(
-                            BASE_IMG_URL + id + '.png',
-                            width: 120,
-                          ),
-                          Text(
-                            ability.pokemon[index].name,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,),
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        ],
-                      )
-                    : null,
-              );
-            }, childCount: ability.pokemon.length),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-            ))
-      ],
+      slivers: <Widget>[list(context), buildGrid()],
     );
   }
 
-  Widget header(String name, BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(left: 24, bottom: 8),
-        child: Text(
-          name,
-          style: Theme.of(context).textTheme.headline,
-        ));
+  SliverList list(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        Row(
+          children: <Widget>[
+            buildId(ability.id, context),
+            header(ability.name, context),
+          ],
+        ),
+        description(ability.effectEntry, context),
+        subtitle(ability.name, context),
+      ]),
+    );
   }
 
-  Widget id(int id, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 24, bottom: 4),
+  SliverGrid buildGrid() => SliverGrid(
+      delegate: SliverChildBuilderDelegate((context, index) => gridItem(index),
+          childCount: ability.pokemon.length),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3, childAspectRatio: 12 / 10));
+
+  Widget gridItem(int index) => Container(
+      margin: EdgeInsets.only(left: 4, right: 4),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image.network(
+            BASE_IMG_URL + getId(ability.pokemon[index].url) + '.png',
+            width: 70,
+          ),
+          Text(
+            ability.pokemon[index].name,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 13,
+            ),
+          )
+        ],
+      ));
+
+  Widget header(String name, BuildContext context) => Container(
+      margin: EdgeInsets.only(left: 8, bottom: 8),
       child: Text(
-        id.toString(),
-        style: Theme.of(context).textTheme.subtitle,
+        name,
+        style: Theme.of(context).textTheme.headline,
+      ));
+
+  Widget buildId(int id, BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 24, bottom: 8),
+      child: Text(
+        id.toString() + ' -',
+        style: Theme.of(context).textTheme.headline,
       ),
     );
   }
 
   Widget description(String text, BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 24, bottom: 48, right: 16),
+      margin: EdgeInsets.only(left: 24, bottom: 32, right: 16),
       child: Text(text,
           style: TextStyle(
             fontSize: 16,
@@ -89,12 +90,10 @@ class AbilityWidget extends StatelessWidget {
 
   Widget subtitle(String name, BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      child: Center(
-        child: Text(
-          'pokemon with "$name" ability',
-          style: Theme.of(context).textTheme.subtitle,
-        ),
+      margin: EdgeInsets.only(bottom: 0, left: 24),
+      child: Text(
+        'pokemon with ability',
+        style: Theme.of(context).textTheme.headline,
       ),
     );
   }

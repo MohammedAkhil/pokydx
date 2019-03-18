@@ -1,5 +1,6 @@
-import 'package:Pokydx/ui/widgets/types_pokemon.dart';
+import 'package:Pokydx/ui/widgets/types.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../data/pokemon.dart';
 
@@ -9,9 +10,11 @@ class ListItemPokemon extends StatelessWidget {
   final int id;
   final String name;
   final int speciesId;
+  final Function addToFavourites;
+  final SlidableController slidableController = SlidableController();
 
   static const String BASE_IMG_URL =
-      "https://cdn.jsdelivr.net/gh/MohammedAkhil/sprites/sprites/pokemon/";
+      "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
 
   ListItemPokemon(
       {Key key,
@@ -19,67 +22,85 @@ class ListItemPokemon extends StatelessWidget {
       this.pokemon,
       this.id,
       this.name,
-      this.speciesId})
+      this.speciesId,
+      this.addToFavourites})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onTapPokemon(pokemon);
-      },
-      child: Card(
-        margin: EdgeInsets.fromLTRB(12, 4, 12, 4),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-        elevation: 0,
-        child: Stack(
-          children: <Widget>[
-            legendaryLogo(),
-            Container(
-              margin: EdgeInsets.all(8),
-              child: Row(
-                children: <Widget>[
-                  image(),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        pokemon.name,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      pokedexNumber(context),
-                    ],
-                  ),
-                  Spacer(),
-                  types(),
-                ],
-              ),
-            ),
-          ],
+    return Slidable(
+      key: Key(pokemon.id.toString()),
+      delegate: SlidableBehindDelegate(),
+      controller: slidableController,
+      actionExtentRatio: 0.25,
+      child: InkWell(
+        onTap: () {
+          onTapPokemon(pokemon);
+        },
+        child: buildCard(context),
+      ),
+      secondaryActions: <Widget>[
+        IconSlideAction(
+          caption: 'save',
+          color: Colors.deepOrange,
+          icon: Icons.favorite,
+          onTap: () {},
         ),
+      ],
+    );
+  }
+
+  Card buildCard(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.fromLTRB(12, 4, 12, 4),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8))),
+      elevation: 0,
+      child: Stack(
+        children: <Widget>[
+          legendaryLogo(),
+          Container(
+            margin: EdgeInsets.all(8),
+            child: Row(
+              children: <Widget>[
+                image(),
+                SizedBox(
+                  width: 8,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      pokemon.name,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    pokedexNumber(context),
+                  ],
+                ),
+                Spacer(),
+                types(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget pokedexNumber(BuildContext context) => Text(
-    formatPokedexNumber(),
-        style: Theme.of(context).textTheme.body1);
+  Widget pokedexNumber(BuildContext context) =>
+      Text(formatPokedexNumber(), style: Theme.of(context).textTheme.body1);
 
   Widget image() => Container(
-    width: 60,
-    height: 60,
-    child: FadeInImage.assetNetwork(
-        image: getImageUrl(id),
-        placeholder: 'assets/images/pokeLogo.png',
-    ),
-  );
+        width: 55,
+        height: 55,
+        child: FadeInImage.assetNetwork(
+          image: getImageUrl(id),
+          placeholder: 'assets/images/pokeLogo.png',
+        ),
+      );
 
   String formatPokedexNumber() {
     int preZeroCount = 3 - (id).toString().length;
@@ -94,7 +115,7 @@ class ListItemPokemon extends StatelessWidget {
       default:
         preZeroes = "";
     }
-    return "#$preZeroes$id";
+    return "$preZeroes$id";
   }
 
   Widget types() {
@@ -121,7 +142,7 @@ class ListItemPokemon extends StatelessWidget {
 
   String getImageUrl(int id) {
     if (id <= 809) {
-      return BASE_IMG_URL + id.toString() + '.png';
+      return BASE_IMG_URL + formatPokedexNumber() + '.png';
     }
     String baseUrl =
         "https://cdn.jsdelivr.net/gh/MohammedAkhil/sprites/sprites/pokemon/";
@@ -132,7 +153,7 @@ class ListItemPokemon extends StatelessWidget {
   }
 
   String getSubSpeciesName(String fullName) {
-    return fullName.substring(
-        fullName.indexOf(RegExp(r'-[\w]{2,}').stringMatch(fullName).toString()));
+    return fullName.substring(fullName
+        .indexOf(RegExp(r'-[\w]{2,}').stringMatch(fullName).toString()));
   }
 }

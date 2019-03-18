@@ -1,7 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:Pokydx/data/abilitiy.dart';
-import 'package:Pokydx/ui/widgets/ability_widget.dart';
+import 'package:Pokydx/data/ability_data.dart';
+import 'package:Pokydx/ui/widgets/ability.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

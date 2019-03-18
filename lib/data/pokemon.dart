@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:Pokydx/utils/string.dart';
 
-import '../data/abilitiy.dart';
+import '../data/ability_data.dart';
 import '../data/stat.dart';
 
 class Pokemon {

@@ -4,8 +4,7 @@ import 'dart:convert';
 import 'package:Pokydx/data/pokemon.dart';
 import 'package:Pokydx/ui/info_state.dart';
 import 'package:Pokydx/ui/search.dart';
-import 'package:Pokydx/ui/widgets/grid_pokemon.dart';
-import 'package:Pokydx/ui/widgets/list_pokemon.dart';
+import 'package:Pokydx/ui/widgets/pokemon_list.dart';
 import 'package:Pokydx/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,14 +26,14 @@ class _HomeState extends State<Home> {
   ScrollController controller;
   var pokeList = List<Pokemon>();
   double elevation = 5.0;
-  bool isGrid = false;
   bool isSearch = false;
+  var favourites = List<int> ;
 
   @override
   void initState() {
     super.initState();
     fetchAllPokemon();
-    controller = new ScrollController()..addListener(_scrollListener);
+    controller = ScrollController()..addListener(_scrollListener);
   }
 
   @override
@@ -74,23 +73,12 @@ class _HomeState extends State<Home> {
               _onEndScroll(scrollNotification.metrics);
             }
           },
-          child: isGrid
-              ? GridPokemon(
-                  controller: controller,
-                  onTapPokemon: onTapPokemon,
-                  pokemon: pokeList,
-                )
-              : PokeList(
+          child: PokeList(
                   list: pokeList,
                   onTapPokemon: onTapPokemon,
+                  addToFavourites: addToFavourites,
                   controller: controller)),
     );
-  }
-
-  _switchListType() {
-    setState(() {
-      isGrid = !isGrid;
-    });
   }
 
   _onStartScroll(ScrollMetrics metrics) {
@@ -104,13 +92,17 @@ class _HomeState extends State<Home> {
       elevation = 0.0;
     });
   }
-
+zž
   void _scrollListener() {
     if (controller.position.extentAfter < 300 &&
         offset < 960 &&
         isLoading == false) {
       fetchAllPokemon();
     }
+  }
+
+  void addToFavourites(int id) {
+
   }
 
   void onTapPokemon(Pokemon pokemon) {
@@ -128,7 +120,6 @@ class _HomeState extends State<Home> {
     var newList = List<Pokemon>();
     isLoading = true;
 
-    // TODO optimize query
 
     String query = '''
     SELECT id, name, species_id, type, generation_id
@@ -181,9 +172,6 @@ class _HomeState extends State<Home> {
             onPressed: () {
               widget.modifyTheme();
             }),
-        IconButton(
-            icon: isGrid ? Icon(Icons.list) : Icon(Icons.grid_on),
-            onPressed: _switchListType)
       ],
     );
   }

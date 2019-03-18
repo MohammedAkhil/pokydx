@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:Pokydx/data/pokemon.dart';
 import 'package:Pokydx/ui/info_state.dart';
-import 'package:Pokydx/ui/widgets/list_pokemon.dart';
+import 'package:Pokydx/ui/widgets/pokemon_list.dart';
 import 'package:Pokydx/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,8 +18,7 @@ class _SearchState extends State<Search> {
   bool isLoading = false;
   String url = "api.data.world";
   String endPoint = 'v0/sql/akhil05/pokydx/';
-  var pokeList = List<Pokemon>();
-
+  var pokeList = List<Pokemon>(); 
   String search = "";
 
   @override
@@ -112,11 +111,7 @@ class _SearchState extends State<Search> {
     String column;
     column = isNumeric(search) ? 'id' : 'name';
     String likeQuery = isNumeric(search) ? "$search" : "%$search%";
-
-    // TODO optimize query
-
-    String query = '''
-    SELECT id, name, species_id, type, generation_id
+    String query = '''SELECT id, name, species_id, type, generation_id
     FROM pokedex
     WHERE  $column LIKE '$likeQuery'
     ORDER BY id

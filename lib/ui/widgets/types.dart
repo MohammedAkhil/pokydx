@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../data/types.dart';
 
@@ -7,8 +6,7 @@ class Types extends StatelessWidget {
   final List<String> types;
   final bool isSmall;
 
-  const Types({Key key, this.types, this.isSmall: false})
-      : super(key: key);
+  const Types({Key key, this.types, this.isSmall: false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,16 +59,8 @@ class Types extends StatelessWidget {
     );
   }
 
-  Future<Color> getColorType(String type)async {
-
-    String jsonString = await _loadTypesJson();
-
-
+  Color getColorType(String type) {
     String hexColor = '0XFF' + typeColorCodes[type.toLowerCase()];
     return Color(int.parse(hexColor));
-  }
-
-  Future<String> _loadTypesJson() async {
-    return await rootBundle.loadString('assets/json/types.json');
   }
 }
