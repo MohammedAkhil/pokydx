@@ -1,4 +1,4 @@
-import 'package:Pokydx/ui/widgets/types_widget.dart';
+import 'package:Pokydx/ui/widgets/types_pokemon.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/pokemon.dart';
@@ -68,21 +68,18 @@ class ListItemPokemon extends StatelessWidget {
     );
   }
 
-  Widget pokedexNumber(BuildContext context) {
-    return Text(formatPokedexNumber(),
+  Widget pokedexNumber(BuildContext context) => Text(
+    formatPokedexNumber(),
         style: Theme.of(context).textTheme.body1);
-  }
 
-  Widget image() {
-    return Container(
-      width: 60,
-      height: 60,
-      child: FadeInImage.assetNetwork(
+  Widget image() => Container(
+    width: 60,
+    height: 60,
+    child: FadeInImage.assetNetwork(
         image: getImageUrl(id),
         placeholder: 'assets/images/pokeLogo.png',
-      ),
-    );
-  }
+    ),
+  );
 
   String formatPokedexNumber() {
     int preZeroCount = 3 - (id).toString().length;
@@ -101,7 +98,7 @@ class ListItemPokemon extends StatelessWidget {
   }
 
   Widget types() {
-    return TypesWidget(
+    return Types(
       types: pokemon.type,
       isSmall: true,
     );

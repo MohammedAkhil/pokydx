@@ -1,7 +1,7 @@
 import 'package:Pokydx/ui/ability_state.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/abilitiy.dart';
+import '../../data/ability_data.dart';
 
 class AbilitiesWidget extends StatelessWidget {
   final List<Ability> abilities;
@@ -78,8 +78,7 @@ class AbilitiesWidget extends StatelessWidget {
         children: <Widget>[
           Text(
             ability.name,
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
           ),
           miscInfo(ability, context)
         ],
@@ -100,7 +99,6 @@ class AbilitiesWidget extends StatelessWidget {
         Text(
           isHidden,
           style: Theme.of(context).textTheme.body2,
-
         ),
         SizedBox(
           width: 8,
