@@ -1,16 +1,39 @@
-# pokydx
+# Pokydx
 
-A simple Pokedex app made in flutter
+A mini-encyclopedia of Pokémon species, types, evolutions, and moves.
 
-This project uses Pokeapi to access data about Pokemon.
-Dataset of all the pokemon list is got from Data.world
+This project uses Pokeapi to access data about Pokemon. Dataset of all the pokemon list is got from Data.world
 
-### Development
-If you haven't already, install Flutter. And the Flutter plugin for your IDE. Preferable IDE is Android Studio.
-To run the Flutter project, open it in your editor and click the play button, or run flutter run on your terminal.
+# Demo
+![Demo](assets/screens/screen.gif)
 
+## Getting Started
+**Note:** Make sure your Flutter environment is setup.
 
-### Contributions
-Contributions are welcome!
+#### Installation
 
-Feel free to add issues with bugs or ideas. Any pull requests are very welcome!
+In the command terminal, run the following commands:
+
+    $ git clone https://github.com/MohammedAkhil/pokydx
+    $ cd pokydx/
+    $ flutter run
+
+# Simulate for iOS
+#### Method One
+
+    Open the project in Xcode from ios/Runner.xcodeproj.
+    Hit the play button.
+
+#### Method Two
+
+    Run the following command in your terminal.
+    $ open -a Simulator
+    $ flutter run
+
+# Simulate for Android
+
+    Make sure you have an Android emulator installed and running.
+    Run the following command in your terminal.
+    $ flutter run
+
+##### Check out Flutter’s online [documentation](http://flutter.io/) for help getting start with your Flutter project.
