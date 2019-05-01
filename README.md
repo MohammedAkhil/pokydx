@@ -3,7 +3,7 @@
 A mini-encyclopedia of Pokémon species, types, evolutions, and moves.
 
 # Demo
-![Demo](assets/screens/recording.gif)
+![Demo](assets/screens/trimmed.gif)
 
 ## Getting Started
 **Note:** Make sure your Flutter environment is setup.
