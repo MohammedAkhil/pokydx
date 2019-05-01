@@ -5,7 +5,7 @@ A mini-encyclopedia of Pokémon species, types, evolutions, and moves.
 This project uses Pokeapi to access data about Pokemon. Dataset of all the pokemon list is got from Data.world
 
 # Demo
-![Demo](assets/screens/trimmed.gif)
+![Demo](assets/screens/screen.gif)
 
 ## Getting Started
 **Note:** Make sure your Flutter environment is setup.
