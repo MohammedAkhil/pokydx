@@ -1,0 +1,34 @@
+{
+	  "files": [
+	    "README.md"
+	  ],
+	  "imageSize": 100,
+	  "commit": false,
+	  "contributors": [
+	    {
+	      "login": "MohammedAkhil",
+	      "name": "Mohammed Akhil",
+	      "avatar_url": "https://avatars0.githubusercontent.com/u/15796106?v=4",
+	      "profile": "https://github.com/MohammedAkhil",
+	      "contributions": [
+	        "design",
+	        "code",
+	        "ideas"
+	      ]
+	    },
+	    {
+	      "login": "yogeshvar",
+	      "name": "Maggie Yogeshvar",
+	      "avatar_url": "https://avatars3.githubusercontent.com/u/17572818?v=4",
+	      "profile": "https://github.com/yogeshvar",
+	      "contributions": [
+	        "doc"
+	      ]
+	    }
+	  ],
+	  "contributorsPerLine": 7,
+	  "projectName": "pokydx",
+	  "projectOwner": "MohammedAkhil",
+	  "repoType": "github",
+	  "repoHost": "https://github.com"
+	}
