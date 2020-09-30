@@ -41,8 +41,9 @@ class AbilityWidget extends StatelessWidget {
                           Text(
                             ability.pokemon[index].name,
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                            ),
                             overflow: TextOverflow.ellipsis,
                           )
                         ],
