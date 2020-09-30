@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
   var pokeList = List<Pokemon>();
   double elevation = 5.0;
   bool isSearch = false;
-  var favourites = List<int> ;
+  var favourites = List<int>();
 
   @override
   void initState() {
@@ -74,10 +74,10 @@ class _HomeState extends State<Home> {
             }
           },
           child: PokeList(
-                  list: pokeList,
-                  onTapPokemon: onTapPokemon,
-                  addToFavourites: addToFavourites,
-                  controller: controller)),
+              list: pokeList,
+              onTapPokemon: onTapPokemon,
+              addToFavourites: addToFavourites,
+              controller: controller)),
     );
   }
 
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
       elevation = 0.0;
     });
   }
-zž
+
   void _scrollListener() {
     if (controller.position.extentAfter < 300 &&
         offset < 960 &&
@@ -101,9 +101,7 @@ zž
     }
   }
 
-  void addToFavourites(int id) {
-
-  }
+  void addToFavourites(int id) {}
 
   void onTapPokemon(Pokemon pokemon) {
     Navigator.push(
@@ -119,7 +117,6 @@ zž
   Future<void> fetchAllPokemon() async {
     var newList = List<Pokemon>();
     isLoading = true;
-
 
     String query = '''
     SELECT id, name, species_id, type, generation_id
