@@ -219,3 +219,4 @@ Temporary Items
 
 *.class
 *.lock
+.env
