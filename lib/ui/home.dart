@@ -36,6 +36,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchAllPokemon();
+
     controller = new ScrollController()..addListener(_scrollListener);
   }
 
@@ -47,6 +48,14 @@ class _HomeState extends State<Home> {
     var appLanguage = Provider.of<AppLanguage>(context);
     return Scaffold(
       appBar: mainAppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          lan == 'en'
+              ? appLanguage.changeLanguage(Locale("sp"))
+              : appLanguage.changeLanguage(Locale("an"))
+        },
+        child: Text('Spanish'),
+      ),
       body: Stack(
         children: <Widget>[
           list(),
@@ -188,13 +197,6 @@ class _HomeState extends State<Home> {
         IconButton(
             icon: isGrid ? Icon(Icons.list) : Icon(Icons.grid_on),
             onPressed: _switchListType),
-        Switch(
-            value: false,
-            onChanged: (_) {
-              setState(() {
-                lan = 'sp';
-              });
-            })
       ],
     );
   }
