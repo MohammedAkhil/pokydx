@@ -1,6 +1,5 @@
 import 'package:Pokydx/ui/widgets/types.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../data/pokemon.dart';
 
@@ -11,7 +10,6 @@ class ListItemPokemon extends StatelessWidget {
   final String name;
   final int speciesId;
   final Function addToFavourites;
-  final SlidableController slidableController = SlidableController();
 
   static const String BASE_IMG_URL =
       "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
@@ -28,64 +26,50 @@ class ListItemPokemon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      key: Key(pokemon.id.toString()),
-      delegate: SlidableBehindDelegate(),
-      controller: slidableController,
-      actionExtentRatio: 0.25,
-      child: InkWell(
-        onTap: () {
-          onTapPokemon(pokemon);
-        },
-        child: buildCard(context),
-      ),
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'save',
-          color: Colors.deepOrange,
-          icon: Icons.favorite,
-          onTap: () {},
-        ),
-      ],
-    );
+    return buildCard(context);
   }
 
-  Card buildCard(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.fromLTRB(12, 4, 12, 4),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8))),
-      elevation: 0,
-      child: Stack(
-        children: <Widget>[
-          legendaryLogo(),
-          Container(
-            margin: EdgeInsets.all(8),
-            child: Row(
-              children: <Widget>[
-                image(),
-                SizedBox(
-                  width: 8,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      pokemon.name,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+  Widget buildCard(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onTapPokemon(pokemon);
+      },
+      child: Card(
+        margin: EdgeInsets.fromLTRB(12, 4, 12, 4),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+        elevation: 0,
+        child: Stack(
+          children: <Widget>[
+            legendaryLogo(),
+            Container(
+              margin: EdgeInsets.all(8),
+              child: Row(
+                children: <Widget>[
+                  image(),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        pokemon.name,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    pokedexNumber(context),
-                  ],
-                ),
-                Spacer(),
-                types(),
-              ],
+                      pokedexNumber(context),
+                    ],
+                  ),
+                  Spacer(),
+                  types(),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
