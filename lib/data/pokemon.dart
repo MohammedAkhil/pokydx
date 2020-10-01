@@ -60,8 +60,8 @@ class Pokemon {
   final int genderRate;
   final bool isBaby;
 
-  factory Pokemon.fromJson(
-      Map<String, dynamic> json, Map<String, dynamic> speciesJson, String imageUrl) {
+  factory Pokemon.fromJson(Map<String, dynamic> json,
+      Map<String, dynamic> speciesJson, String imageUrl) {
     return Pokemon(
         name: json['name'],
         id: json['id'],
@@ -143,7 +143,7 @@ class Pokemon {
   }
 
   static String getClassification(List<dynamic> body) {
-    return body[2]['genus'];
+    return body[7]['genus'];
   }
 
   static String getShape(Map<String, dynamic> body) {
