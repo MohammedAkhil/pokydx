@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:Pokydx/data/pokemon.dart';
+import 'package:Pokydx/language.dart';
 import 'package:Pokydx/ui/info_state.dart';
 import 'package:Pokydx/ui/search.dart';
 import 'package:Pokydx/ui/widgets/grid_pokemon.dart';
@@ -9,6 +10,7 @@ import 'package:Pokydx/ui/widgets/list_pokemon.dart';
 import 'package:Pokydx/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   final Function modifyTheme;
@@ -34,16 +36,26 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchAllPokemon();
+
     controller = new ScrollController()..addListener(_scrollListener);
   }
 
   @override
   Home get widget => super.widget;
-
+  String lan = 'en';
   @override
   Widget build(BuildContext context) {
+    var appLanguage = Provider.of<AppLanguage>(context);
     return Scaffold(
       appBar: mainAppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {
+          lan == 'en'
+              ? appLanguage.changeLanguage(Locale("sp"))
+              : appLanguage.changeLanguage(Locale("an"))
+        },
+        child: Text('Spanish'),
+      ),
       body: Stack(
         children: <Widget>[
           list(),
@@ -61,7 +73,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget headerText() {
-    return Text('Pokedex', style: TextStyle(fontSize: 24));
+    return Text(AppLocalizations.of(context).translate('Pokedex'),
+        style: TextStyle(fontSize: 24));
   }
 
   Widget list() {
@@ -183,7 +196,7 @@ class _HomeState extends State<Home> {
             }),
         IconButton(
             icon: isGrid ? Icon(Icons.list) : Icon(Icons.grid_on),
-            onPressed: _switchListType)
+            onPressed: _switchListType),
       ],
     );
   }
