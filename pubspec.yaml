@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.0+1
+
   audioplayer: ^0.5.2
 
   cached_network_image: ^0.6.0+1
@@ -24,6 +25,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   
+
+=======
+  audioplayer: ^0.8.1
 
   cached_network_image: ^2.3.2+1
 
